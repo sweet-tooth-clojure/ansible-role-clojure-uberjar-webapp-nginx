@@ -7,7 +7,7 @@
     - provision
 
 - name: nginx base config
-  copy: src=files/nginx.conf dest={{ nginx_dir }}/nginx.conf
+  copy: src=files/nginx.conf dest="{{ clojure_uberjar_webapp_nginx_dir }}/nginx.conf"
   notify:
     - reload nginx
   tags:
@@ -17,7 +17,7 @@
   template:
     # "no-ssl.conf.j2" if fmc_nginx_use_ssl isn't defined or is false
     src: "templates/app-nginx-{{ 'no-' if not (clojure_uberjar_webapp_nginx_use_ssl|d(False)) else '' }}ssl.conf.j2"
-    dest: "{{ nginx_sites_available }}"
+    dest: "{{ clojure_uberjar_webapp_nginx_sites_available }}"
   tags:
     - configure
   notify:
