@@ -1,0 +1,34 @@
+upstream http_backend {
+    server 127.0.0.1:{{ fmc_app_http_port }};
+    # put more servers here for load balancing
+    # keepalive(resue TCP connection) improves performance
+    keepalive 32;  # both http-kit and nginx are good at concurrency
+}
+
+server {
+    server_name {{ fmc_domain }};
+
+    location /static/ {  # static content
+        alias   /var/www/{{ fmc_domain }}/public/;
+    }
+    
+    location / {
+        proxy_pass  http://http_backend;
+
+        # tell http-kit to keep the connection
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+
+        # proxy_set_header x-forwarded-for   $remote_addr;
+        proxy_set_header x-forwarded-host  $host;
+        proxy_set_header x-forwarded-proto $scheme;
+        proxy_set_header x-forwarded-port  $server_port;
+
+
+        access_log  /var/log/nginx/{{ fmc_domain }}.access.log;
+        error_log   /var/log/nginx/{{ fmc_domain }}.error.log;
+    }
+}

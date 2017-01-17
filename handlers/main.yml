@@ -1,0 +1,6 @@
+---
+- name: reload nginx
+  service: name=nginx state=reloaded
+  become: yes
+  become_method: sudo
+  listen: "nginx config changed"

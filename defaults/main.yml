@@ -1,0 +1,5 @@
+---
+clojure_uberjar_webapp_app_name: "{{ clojure_uberjar_webapp_domain | replace('.', '-') }}"
+clojure_uberjar_webapp_nginx_dir: /etc/nginx
+clojure_uberjar_webapp_nginx_sites_available: "{{ clojure_uberjar_webapp_nginx_dir }}/sites-available/{{ clojure_uberjar_webapp_app_name }}.conf"
+clojure_uberjar_webapp_nginx_sites_enabled: "{{ clojure_uberjar_webapp_nginx_dir }}/sites-enabled/{{ clojure_uberjar_webapp_app_name }}.conf"

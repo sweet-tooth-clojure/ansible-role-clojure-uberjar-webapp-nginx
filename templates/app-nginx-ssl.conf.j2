@@ -1,0 +1,49 @@
+upstream http_backend {
+    server 127.0.0.1:3000;  # http-kit listen on 3000
+    # put more servers here for load balancing
+    # keepalive(resue TCP connection) improves performance
+    keepalive 32;  # both http-kit and nginx are good at concurrency
+}
+
+server {
+    listen         80;
+    server_name    {{ clojure_uberjar_webapp_domain }};
+    return         301 https://{{ clojure_uberjar_webapp_domain }}$request_uri;
+    access_log     /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.access.log;
+    error_log      /var/log/nginx/{{ clojure_uberjar_webapp_app_name}}.error.log;
+}
+
+server {
+    listen 443 default_server ssl;
+    server_name {{ fmc_domain }};
+    ssl on;
+    ssl_certificate     /etc/letsencrypt/live/{{ clojure_uberjar_webapp_app_name }}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/{{ clojure_uberjar_webapp_app_name }}/privkey.pem;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+
+    location /static/ {  # static content
+        alias   {{ clojure_uberjar_webapp_app_root }}/public/;
+    }
+  
+    location / {
+        proxy_pass  http://http_backend;
+
+        # tell http-kit to keep the connection
+        proxy_http_version 1.1;
+        proxy_set_header Connection "";
+
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+
+        # proxy_set_header x-forwarded-for   $remote_addr;
+        proxy_set_header x-forwarded-host  $host;
+        proxy_set_header x-forwarded-proto $scheme;
+        proxy_set_header x-forwarded-port  $server_port;
+
+
+        access_log  /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.access.log;
+        error_log   /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.error.log;
+    }
+}
