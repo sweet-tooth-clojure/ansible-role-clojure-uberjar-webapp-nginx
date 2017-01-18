@@ -1,5 +1,5 @@
 upstream http_backend {
-    server 127.0.0.1:{{ fmc_app_http_port }};
+    server 127.0.0.1:{{ clojure_uberjar_webapp_app_http_port }};
     # put more servers here for load balancing
     # keepalive(resue TCP connection) improves performance
     keepalive 32;  # both http-kit and nginx are good at concurrency
