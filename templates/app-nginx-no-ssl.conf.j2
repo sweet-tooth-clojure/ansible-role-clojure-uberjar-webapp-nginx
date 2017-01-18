@@ -6,10 +6,10 @@ upstream http_backend {
 }
 
 server {
-    server_name {{ fmc_domain }};
+    server_name {{ clojure_uberjar_webapp_nginx_server_name }};
 
-    location /static/ {  # static content
-        alias   /var/www/{{ fmc_domain }}/public/;
+    location {{ clojure_uberjar_webapp_nginx_static_location }} {  # static content
+        alias {{ clojure_uberjar_webapp_nginx_static_alias }};
     }
     
     location / {
@@ -28,7 +28,7 @@ server {
         proxy_set_header x-forwarded-port  $server_port;
 
 
-        access_log  /var/log/nginx/{{ fmc_domain }}.access.log;
-        error_log   /var/log/nginx/{{ fmc_domain }}.error.log;
+        access_log  /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.access.log;
+        error_log   /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.error.log;
     }
 }

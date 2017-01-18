@@ -15,7 +15,7 @@
 
 - name: nginx app config
   template:
-    # "no-ssl.conf.j2" if fmc_nginx_use_ssl isn't defined or is false
+    # "no-ssl.conf.j2" if clojure_uberjar_webapp_nginx_use_ssl isn't defined or is false
     src: "templates/app-nginx-{{ 'no-' if not (clojure_uberjar_webapp_nginx_use_ssl|d(False)) else '' }}ssl.conf.j2"
     dest: "{{ clojure_uberjar_webapp_nginx_sites_available }}"
   tags:
