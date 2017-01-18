@@ -11,4 +11,6 @@ galaxy_info:
   galaxy_tags:
     - clojure
     - web
-dependencies: []
+dependencies:
+  - flyingmachine.clojure-uberjar-webapp-common
+  - flyingmachine.clojure-uberjar-webapp-app
