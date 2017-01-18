@@ -4,7 +4,7 @@
   - nginx
   - openssl
   tags:
-    - provision
+    - install
 
 - name: nginx base config
   copy: src=files/nginx.conf dest="{{ clojure_uberjar_webapp_nginx_dir }}/nginx.conf"
