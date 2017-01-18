@@ -1,38 +1,75 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+This role configures an nginx server to reverse-proxy an application
+server. It has ssl and no-ssl nginx configs.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+None
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+I tried to take care to parameterize as much as I could, but to define
+defaults such that you're only required to define a couple vars for
+everything to work. If you define `clojure_uberjar_webapp_app_name`,
+then `flyingmachine.clojure-uberjar-webapp-common` will define
+`clojure_uberjar_webapp_app_name`, which is used by most of the vars velow.
+
+For example, if your domain is `foo.bar.com`, the app name will be
+`foo-bar-com`. Your app's site config will be upload to
+_/etc/nginx/sites\_available/foo-bar-com.conf_, and you'll find logs
+under `/var/log/nginx/foo-bar-com.access.log`. I find that this
+consistency makes it easier to navigate the filesystem.
+
+There are some references to datomic vars, but those are optional. I
+hope to improve the roles such that this role contains no references
+to datomic.
+
+| Variable                                       | Description                                                                                          |
+| --------                                       | -----------                                                                                          |
+| `clojure_uberjar_webapp_nginx_dir`             | Directory containing nginx configs                                                                   |
+| `clojure_uberjar_webapp_nginx_server_name`     | Used to set `server_name` in the nginx site config; defaults to `clojure_uberjar_webapp_domain`      |
+| `clojure_uberjar_webapp_nginx_sites_available` | path to nginx's _sites\_available_ directory; mainly there for DRYness                               |
+| `clojure_uberjar_webapp_nginx_sites_enabled`   | path to nginx's _sites\_enabled_ directory; mainly there for DRYness                                 |
+| `clojure_uberjar_webapp_nginx_static_location` | URL base  for serving static files. e.g. `http://foo.com/static/logo.png` should serve a static file |
+| `clojure_uberjar_webapp_nginx_static_alias`    | where to look on server filesystem for static files                                                  |
+| `clojure_uberjar_webapp_nginx_letsencrypt_dir` | where letsencrypt files live                                                                         |
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+* [flyingmachine.clojure-uberjar-webapp-common](https://galaxy.ansible.com/flyingmachine/clojure-uberjar-webapp-common/)
+* [flyingmachine.clojure-uberjar-webapp-app](https://galaxy.ansible.com/flyingmachine/clojure-uberjar-webapp-app/)
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```
+---
+- hosts: webservers
+  become: true
+  become_method: sudo
+  vars:
+    clojure_uberjar_webapp_domain: staging.blahblah.com
+  roles:
+    - "flyingmachine.clojure-uberjar-webapp-common"
+    - "flyingmachine.clojure-uberjar-webapp-app"
+    - "flyingmachine.clojure-uberjar-webapp-nginx"
+```
 
 License
 -------
 
-BSD
+MIT
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Daniel Higginbotham
+
+* http://twitter.com/nonrecursive
+* http://www.braveclojure.com/
+
