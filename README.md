@@ -28,16 +28,17 @@ There are some references to datomic vars, but those are optional. I
 hope to improve the roles such that this role contains no references
 to datomic.
 
-| Variable                                       | Description                                                                                          |
-| --------                                       | -----------                                                                                          |
-| `clojure_uberjar_webapp_nginx_dir`             | Directory containing nginx configs                                                                   |
-| `clojure_uberjar_webapp_nginx_server_name`     | Used to set `server_name` in the nginx site config; defaults to `clojure_uberjar_webapp_domain`      |
-| `clojure_uberjar_webapp_nginx_sites_available` | path to nginx's _sites\_available_ directory; mainly there for DRYness                               |
-| `clojure_uberjar_webapp_nginx_sites_enabled`   | path to nginx's _sites\_enabled_ directory; mainly there for DRYness                                 |
-| `clojure_uberjar_webapp_nginx_static_location` | URL base  for serving static files. e.g. `http://foo.com/static/logo.png` should serve a static file |
-| `clojure_uberjar_webapp_nginx_static_alias`    | where to look on server filesystem for static files                                                  |
-| `clojure_uberjar_webapp_nginx_use_ssl`         | Set to True to use ssl                                                                               |
-| `clojure_uberjar_webapp_nginx_letsencrypt_dir` | where letsencrypt files live                                                                         |
+| Variable                                         | Description                                                                                          |
+| --------                                         | -----------                                                                                          |
+| `clojure_uberjar_webapp_nginx_dir`               | Directory containing nginx configs                                                                   |
+| `clojure_uberjar_webapp_nginx_server_name`       | Used to set `server_name` in the nginx site config; defaults to `clojure_uberjar_webapp_domain`      |
+| `clojure_uberjar_webapp_nginx_sites_available`   | path to nginx's _sites\_available_ directory; mainly there for DRYness                               |
+| `clojure_uberjar_webapp_nginx_sites_enabled`     | path to nginx's _sites\_enabled_ directory; mainly there for DRYness                                 |
+| `clojure_uberjar_webapp_nginx_static_location`   | URL base  for serving static files. e.g. `http://foo.com/static/logo.png` should serve a static file |
+| `clojure_uberjar_webapp_nginx_static_alias`      | where to look on server filesystem for static files                                                  |
+| `clojure_uberjar_webapp_nginx_use_ssl`           | Set to True to use ssl                                                                               |
+| `clojure_uberjar_webapp_nginx_letsencrypt_dir`   | where letsencrypt files live                                                                         |
+| `clojure_uberjar_webapp_nginx_additional_config` | gets appended to end of site's nginx config file                                                     |
 
 Dependencies
 ------------

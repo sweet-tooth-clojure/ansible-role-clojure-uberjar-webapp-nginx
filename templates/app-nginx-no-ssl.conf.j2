@@ -32,3 +32,5 @@ server {
         error_log   /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.error.log;
     }
 }
+
+{{ clojure_uberjar_webapp_nginx_additional_config }}
