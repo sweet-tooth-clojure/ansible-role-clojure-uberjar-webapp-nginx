@@ -1,4 +1,4 @@
-upstream http_backend {
+upstream {{ clojure_uberjar_webapp_nginx_upstream_name }} {
     server 127.0.0.1:{{ clojure_uberjar_webapp_app_http_port }};
     # put more servers here for load balancing
     # keepalive(resue TCP connection) improves performance
@@ -13,7 +13,7 @@ server {
     }
     
     location / {
-        proxy_pass  http://http_backend;
+        proxy_pass  http://{{ clojure_uberjar_webapp_nginx_upstream_name }};
 
         # tell http-kit to keep the connection
         proxy_http_version 1.1;

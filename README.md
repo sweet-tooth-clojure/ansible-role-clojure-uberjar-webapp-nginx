@@ -32,6 +32,7 @@ to datomic.
 | --------                                         | -----------                                                                                          |
 | `clojure_uberjar_webapp_nginx_dir`               | Directory containing nginx configs                                                                   |
 | `clojure_uberjar_webapp_nginx_server_name`       | Used to set `server_name` in the nginx site config; defaults to `clojure_uberjar_webapp_domain`      |
+| `clojure_uberjar_webapp_nginx_upstream_name`     | Name within config to refer to the java app upstream                                                 |
 | `clojure_uberjar_webapp_nginx_sites_available`   | path to nginx's _sites\_available_ directory; mainly there for DRYness                               |
 | `clojure_uberjar_webapp_nginx_sites_enabled`     | path to nginx's _sites\_enabled_ directory; mainly there for DRYness                                 |
 | `clojure_uberjar_webapp_nginx_static_location`   | URL base  for serving static files. e.g. `http://foo.com/static/logo.png` should serve a static file |
