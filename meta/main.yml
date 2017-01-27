@@ -12,5 +12,5 @@ galaxy_info:
     - clojure
     - web
 dependencies:
-  - flyingmachine.clojure-uberjar-webapp-common
-  - flyingmachine.clojure-uberjar-webapp-app
+  - sweet-tooth-clojure.clojure-uberjar-webapp-common
+  - sweet-tooth-clojure.clojure-uberjar-webapp-app
