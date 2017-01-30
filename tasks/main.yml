@@ -6,6 +6,13 @@
   tags:
     - install
 
+- name: Disable default site
+  file:
+    src: /etc/nginx/sites-enabled/default
+    state: absent
+  tags:
+    - install
+    
 - name: nginx base config
   copy: src=files/nginx.conf dest="{{ clojure_uberjar_webapp_nginx_dir }}/nginx.conf"
   notify:
