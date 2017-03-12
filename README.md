@@ -4,6 +4,12 @@ Role Name
 This role configures an nginx server to reverse-proxy an application
 server. It has ssl and no-ssl nginx configs.
 
+See https://github.com/sweet-tooth-clojure/ansible-roles for a quick
+overview and instructions. See
+[_Deploying Your First Clojure App ...From the Shadows_](http://www.braveclojure.com/quests/deploy/)
+for an introductory guide to Ansible and in-depth explanation of this
+role.
+
 Requirements
 ------------
 

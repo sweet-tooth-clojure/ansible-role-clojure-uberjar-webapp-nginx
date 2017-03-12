@@ -1,8 +1,8 @@
 upstream {{ clojure_uberjar_webapp_nginx_upstream_name }} {
     server 127.0.0.1:{{ clojure_uberjar_webapp_app_http_port }};
     # put more servers here for load balancing
-    # keepalive(resue TCP connection) improves performance
-    keepalive 32;  # both http-kit and nginx are good at concurrency
+    # keepalive(reuse TCP connection) improves performance
+    keepalive 32;
 }
 
 server {
@@ -22,7 +22,6 @@ server {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
 
-        # proxy_set_header x-forwarded-for   $remote_addr;
         proxy_set_header x-forwarded-host  $host;
         proxy_set_header x-forwarded-proto $scheme;
         proxy_set_header x-forwarded-port  $server_port;
