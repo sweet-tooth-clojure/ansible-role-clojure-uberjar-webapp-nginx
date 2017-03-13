@@ -56,17 +56,16 @@ Dependencies
 Example Playbook
 ----------------
 
-```
+```yaml
 ---
 - hosts: webservers
   become: true
   become_method: sudo
-  vars:
-    clojure_uberjar_webapp_domain: staging.blahblah.com
   roles:
-    - "flyingmachine.clojure-uberjar-webapp-common"
-    - "flyingmachine.clojure-uberjar-webapp-app"
-    - "flyingmachine.clojure-uberjar-webapp-nginx"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-common"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-nginx"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-datomic-free"
+    - "sweet-tooth-clojure.clojure-uberjar-webapp-app"
 ```
 
 License
