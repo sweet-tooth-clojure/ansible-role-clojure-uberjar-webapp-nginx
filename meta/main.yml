@@ -13,4 +13,3 @@ galaxy_info:
     - web
 dependencies:
   - sweet-tooth-clojure.clojure-uberjar-webapp-common
-  - sweet-tooth-clojure.clojure-uberjar-webapp-app
