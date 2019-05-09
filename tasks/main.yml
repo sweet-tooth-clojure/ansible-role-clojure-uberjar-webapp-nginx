@@ -1,8 +1,8 @@
 - name: Install required system packages
-  apt: pkg="{{ item }}" state=installed update-cache=yes
-  with_items:
-  - nginx
-  - openssl
+  apt:
+    pkg:
+      - nginx
+      - openssl
   tags:
     - install
 
