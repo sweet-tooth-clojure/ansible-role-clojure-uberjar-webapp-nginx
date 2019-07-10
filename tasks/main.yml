@@ -1,11 +1,26 @@
 - name: Install required system packages
-  apt:
+  apt-get:
     pkg:
       - nginx
       - openssl
   tags:
     - install
 
+- name: Install letsencrypt certbot repo
+  apt_repository:
+    repo: ppa:certbot/certbot
+  when: clojure_uberjar_webapp_nginx_use_ssl|bool
+  tags:
+    - install
+
+- name: Install letsencrypt certbot
+  apt-get:
+    pkg:
+      - python-certbot-nginx
+  when: clojure_uberjar_webapp_nginx_use_ssl|bool
+  tags:
+    - install
+    
 - name: Disable default site
   file:
     path: /etc/nginx/sites-enabled/default
@@ -19,16 +34,16 @@
     - reload nginx
   tags:
     - configure
-
+    
 - name: nginx app config
   template:
-    # "no-ssl.conf.j2" if clojure_uberjar_webapp_nginx_use_ssl isn't defined or is false
-    src: "templates/app-nginx-{{ 'no-' if not (clojure_uberjar_webapp_nginx_use_ssl|d(False)) else '' }}ssl.conf.j2"
+    src: "templates/app-nginx.conf.j2"
     dest: "{{ clojure_uberjar_webapp_nginx_sites_available }}"
+  # when: not (clojure_uberjar_webapp_nginx_use_ssl)
   tags:
     - configure
   notify:
-    - "nginx config changed"  
+    - "nginx config changed"
 
 - name: nginx link app config
   file: src="{{ clojure_uberjar_webapp_nginx_sites_available }}" dest="{{ clojure_uberjar_webapp_nginx_sites_enabled }}" state=link
