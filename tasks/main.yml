@@ -1,5 +1,5 @@
 - name: Install required system packages
-  apt-get:
+  apt:
     pkg:
       - nginx
       - openssl
@@ -14,7 +14,7 @@
     - install
 
 - name: Install letsencrypt certbot
-  apt-get:
+  apt:
     pkg:
       - python-certbot-nginx
   when: clojure_uberjar_webapp_nginx_use_ssl|bool
@@ -34,12 +34,18 @@
     - reload nginx
   tags:
     - configure
+
+- name: Check letsencrypt installed
+  stat: path="/etc/letsencrypt/live/{{ clojure_uberjar_webapp_nginx_server_name }}/fullchain.pem"
+  register: letsencrypt_installed
+  ignore_errors: true
+  tags:
+    - configure
     
 - name: nginx app config
   template:
     src: "templates/app-nginx.conf.j2"
     dest: "{{ clojure_uberjar_webapp_nginx_sites_available }}"
-  # when: not (clojure_uberjar_webapp_nginx_use_ssl)
   tags:
     - configure
   notify:

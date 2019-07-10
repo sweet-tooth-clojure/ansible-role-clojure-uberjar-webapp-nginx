@@ -8,4 +8,4 @@ clojure_uberjar_webapp_nginx_static_location: "/static/"
 clojure_uberjar_webapp_nginx_static_alias: "{{ clojure_uberjar_webapp_app_root }}/public/"
 clojure_uberjar_webapp_nginx_letsencrypt_dir: "/etc/letsencrypt/live/{{ clojure_uberjar_webapp_app_name }}"
 clojure_uberjar_webapp_nginx_additional_config: ""
-clojure_uberjar_webapp_nginx_use_ssl: false
+clojure_uberjar_webapp_nginx_use_ssl: true

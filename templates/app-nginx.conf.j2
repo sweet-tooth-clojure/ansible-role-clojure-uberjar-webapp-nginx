@@ -30,6 +30,27 @@ server {
         access_log  /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.access.log;
         error_log   /var/log/nginx/{{ clojure_uberjar_webapp_app_name }}.error.log;
     }
+
+    {% if letsencrypt_installed.stat.exists %}
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/{{ clojure_uberjar_webapp_nginx_server_name }}/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/{{ clojure_uberjar_webapp_nginx_server_name }}/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+    {% endif %}
 }
 
 {{ clojure_uberjar_webapp_nginx_additional_config }}
+
+{% if letsencrypt_installed.stat.exists %}
+server {
+    if ($host = {{ clojure_uberjar_webapp_nginx_server_name }}) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name {{ clojure_uberjar_webapp_nginx_server_name }};
+    listen 80;
+    return 404; # managed by Certbot
+}
+{% endif %}
